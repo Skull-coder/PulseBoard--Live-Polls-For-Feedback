@@ -50,7 +50,7 @@ api.interceptors.response.use(
 
         // 2. Extract the new tokens (adjust this based on your backend response structure!)
         const newAccessToken = refreshResponse.data.data.accessToken;
-        const newRefreshToken = refreshResponse.data.data.accessToken;
+        const newRefreshToken = refreshResponse.data.data.refreshToken;
         
         // 3. Save the new token to localStorage
         localStorage.setItem('accessToken', newAccessToken);
