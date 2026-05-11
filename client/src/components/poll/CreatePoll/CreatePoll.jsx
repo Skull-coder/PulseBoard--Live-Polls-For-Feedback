@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CreatePoll.css";
 
-const EMPTY_OPTION = "";
 const EMPTY_QUESTION = {
   question: "",
   required: true,
