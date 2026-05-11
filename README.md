@@ -310,6 +310,3 @@ The frontend runs on `http://localhost:5173` (Vite default).
 
 This project is open‑source. Feel free to use and modify it for your own learning or hackathon projects.
 
----
-
-**Built with ❤️ by the PulseBoard team**
