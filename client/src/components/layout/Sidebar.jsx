@@ -17,7 +17,6 @@ const Sidebar = () => {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
     } catch (err) {
-      console.log("Logout error:", err);
     } finally {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");

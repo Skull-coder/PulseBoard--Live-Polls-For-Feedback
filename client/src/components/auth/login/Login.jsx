@@ -21,7 +21,6 @@ const Login = () => {
         password: data.password,
       });
 
-      console.log(response);
 
       const responseData = response.data.data;
 
@@ -39,7 +38,6 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      console.log("error:", error);
       // Axios received response from backend
       if (error.response) {
         const message = error.response.data.error.message;
@@ -76,7 +74,6 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      console.log("Google login error:", error);
       if (error.response) {
         const message = error.response.data.error.message;
 

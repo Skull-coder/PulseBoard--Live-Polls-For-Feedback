@@ -27,7 +27,6 @@ const Signup = () => {
       navigate("/verify-email");
 
     } catch (error) {
-      console.log("error:", error);
       // Axios received response from backend
       if (error.response) {
         const statusCode = error.response.status;

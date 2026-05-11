@@ -16,7 +16,6 @@ const MyPolls = () => {
         setPolls(response.data.data);
       } catch (err) {
         setError("Failed to load polls.");
-        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -33,7 +32,6 @@ const MyPolls = () => {
         prev.map((p) => (p._id === pollId ? { ...p, isPublished: true } : p))
       );
     } catch (err) {
-      console.log("Publish error:", err);
     }
   };
 
@@ -42,7 +40,6 @@ const MyPolls = () => {
       await api.delete(`/poll/${pollId}`);
       setPolls((prev) => prev.filter((p) => p._id !== pollId));
     } catch (err) {
-      console.log("Delete error:", err);
     }
   };
 

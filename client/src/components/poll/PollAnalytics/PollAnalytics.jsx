@@ -28,7 +28,6 @@ const PollAnalytics = () => {
         }
       } catch (err) {
         setError("Failed to load poll.");
-        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -103,7 +102,6 @@ const PollAnalytics = () => {
       await api.patch(`/poll/${pollId}/publish`);
       setPoll((prev) => ({ ...prev, isPublished: true }));
     } catch (err) {
-      console.log("Publish error:", err);
     }
   };
 
