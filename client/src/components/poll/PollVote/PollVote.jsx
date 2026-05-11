@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api.js";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import "./PollVote.css";
 
@@ -18,7 +18,7 @@ const PollVote = () => {
   useEffect(() => {
     const fetchPoll = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/poll/${pollId}`);
+        const response = await api.get(`/poll/${pollId}`);
         setPoll(response.data.data);
       } catch (err) {
         const message =
@@ -61,7 +61,6 @@ const PollVote = () => {
 
     try {
       const payload = { answers: answersArray };
-      const headers = {};
 
       if (poll.responseMode === "AUTHENTICATED") {
         const accessToken = localStorage.getItem("accessToken");
@@ -70,7 +69,6 @@ const PollVote = () => {
           setIsSubmitting(false);
           return;
         }
-        headers.Authorization = `Bearer ${accessToken}`;
       } else {
         // Anonymous: get fingerprint
         const fp = await FingerprintJS.load();
@@ -78,11 +76,7 @@ const PollVote = () => {
         payload.fingerprint = result.visitorId;
       }
 
-      await axios.post(
-        `http://localhost:3000/response/${pollId}/submit`,
-        payload,
-        { headers }
-      );
+      await api.post(`/response/${pollId}/submit`, payload);
 
       setSubmitted(true);
     } catch (err) {

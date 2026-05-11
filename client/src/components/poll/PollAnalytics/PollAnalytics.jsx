@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import axios from "axios";
+import api from "../../../api.js";
 import "./PollAnalytics.css";
 
 const PollAnalytics = () => {
@@ -20,10 +20,7 @@ const PollAnalytics = () => {
   useEffect(() => {
     const fetchPoll = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await axios.get(`http://localhost:3000/poll/${pollId}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const response = await api.get(`/poll/${pollId}`);
         const data = response.data.data;
         setPoll(data);
         if (data.totalResponses !== undefined) {
@@ -103,12 +100,7 @@ const PollAnalytics = () => {
 
   const handlePublish = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      await axios.patch(
-        `http://localhost:3000/poll/${pollId}/publish`,
-        {},
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+      await api.patch(`/poll/${pollId}/publish`);
       setPoll((prev) => ({ ...prev, isPublished: true }));
     } catch (err) {
       console.log("Publish error:", err);

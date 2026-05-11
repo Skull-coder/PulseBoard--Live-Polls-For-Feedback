@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api.js";
 import "./VerifyEmail.css"; // Import the CSS file
 
 const VerifyEmail = () => {
@@ -15,7 +15,7 @@ const VerifyEmail = () => {
 
   async function submit(data) {
     try {
-      await axios.post("http://localhost:3000/auth/verify-email", {
+      await api.post("/auth/verify-email", {
         verificationToken: data.verificationToken,
       });
       navigate("/login");

@@ -29,16 +29,10 @@ export const sendVerificationEmail = async (email, rawToken) => {
     from: `${process.env.SMTP_FROM_EMAIL}`,
     to: email,
     subject: "Email Verification",
-    text: `Your verification token: ${rawToken}\n\nTo verify your email, visit: ${frontendVerificationUrl}\n\nOr send a POST request to:\nPOST http://localhost:${port}/auth/verify-email\nBody: {"verificationToken": "${rawToken}"}`,
+    text: `Your verification token: ${rawToken}`,
     html: `
     <h2>Verify Your Email</h2>
-    <p>Thank you for registering! Click the link below to verify your email:</p>
-    <a href="${frontendVerificationUrl}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Verify Email</a>
-    <p>Or use this token to verify via API:</p>
-    <code style="background-color: #f0f0f0; padding: 10px; border-radius: 4px; display: block;">
-      POST /auth/verify-email<br/>
-      Body: {"verificationToken": "${rawToken}"}
-    </code>
+    <p>Thank you for registering!</p>
     <p><strong>Token:</strong> ${rawToken}</p>
     <p style="color: #666; font-size: 12px;">This token will expire in 15 minutes.</p>
     `,

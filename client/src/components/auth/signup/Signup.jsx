@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api.js";
 import "./Signup.css"; // Import the CSS file
 
 const Signup = () => {
@@ -18,7 +18,7 @@ const Signup = () => {
 
   async function submit(data) {
     try {
-      await axios.post("http://localhost:3000/auth/register", {
+      await api.post("/auth/register", {
         username: data.username,
         email: data.email,
         password: data.password,

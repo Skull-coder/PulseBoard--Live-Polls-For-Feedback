@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api.js";
 import "./MyPolls.css";
 
 const MyPolls = () => {
@@ -12,10 +12,7 @@ const MyPolls = () => {
   useEffect(() => {
     const fetchPolls = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await axios.get("http://localhost:3000/poll/myPolls", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const response = await api.get("/poll/myPolls");
         setPolls(response.data.data);
       } catch (err) {
         setError("Failed to load polls.");
@@ -31,12 +28,7 @@ const MyPolls = () => {
   const handlePublish = async (pollId, e) => {
     e.stopPropagation();
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      await axios.patch(
-        `http://localhost:3000/poll/${pollId}/publish`,
-        {},
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+      await api.patch(`/poll/${pollId}/publish`);
       setPolls((prev) =>
         prev.map((p) => (p._id === pollId ? { ...p, isPublished: true } : p))
       );
@@ -47,10 +39,7 @@ const MyPolls = () => {
 
   const deletePoll = async (pollId) => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      await axios.delete(`http://localhost:3000/poll/${pollId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      await api.delete(`/poll/${pollId}`);
       setPolls((prev) => prev.filter((p) => p._id !== pollId));
     } catch (err) {
       console.log("Delete error:", err);

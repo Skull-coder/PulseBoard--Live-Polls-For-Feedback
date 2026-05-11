@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../../api.js";
 import "./CreatePoll.css";
 
 const EMPTY_QUESTION = {
@@ -95,7 +95,6 @@ const CreatePoll = () => {
 
     setIsSubmitting(true);
     try {
-      const accessToken = localStorage.getItem("accessToken");
       const payload = {
         questions: questions.map((q) => ({
           question: q.question.trim(),
@@ -106,9 +105,7 @@ const CreatePoll = () => {
         expiryDuration,
       };
 
-      await axios.post("http://localhost:3000/poll/create", payload, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      await api.post("/poll/create", payload)
 
       navigate("/");
     } catch (err) {

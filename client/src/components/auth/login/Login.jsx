@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Login.css"; // Make sure to import the CSS file!
+import { GoogleLogin } from '@react-oauth/google';
+import "./Login.css"; 
+import api from "../../../api.js";
 
 const Login = () => {
   const {
@@ -15,7 +16,7 @@ const Login = () => {
 
   async function submit(data) {
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await api.post("/auth/login", {
         email: data.email,
         password: data.password,
       });
@@ -51,6 +52,47 @@ const Login = () => {
         return;
       }
     }
+  }
+
+  async function handleGoogleLoginSuccess(credentialResponse) {
+    try {
+      const response = await api.post("/auth/google", {
+        idToken: credentialResponse.credential,
+      });
+
+      const responseData = response.data.data;
+
+      localStorage.setItem("accessToken", responseData.accessToken);
+
+      localStorage.setItem("refreshToken", responseData.refreshToken);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: responseData.username,
+          email: responseData.email,
+        }),
+      );
+
+      navigate("/");
+    } catch (error) {
+      console.log("Google login error:", error);
+      if (error.response) {
+        const message = error.response.data.error.message;
+
+        setError("root.serverError", {
+          type: "server",
+          message: message || "Google login failed",
+        });
+      }
+    }
+  }
+
+  function handleGoogleLoginError() {
+    setError("root.serverError", {
+      type: "server",
+      message: "Google login failed",
+    });
   }
 
   return (
@@ -92,8 +134,19 @@ const Login = () => {
           </button>
         </form>
 
+        <div className="divider">OR</div>
+
+        <GoogleLogin
+          onSuccess={handleGoogleLoginSuccess}
+          onError={handleGoogleLoginError}
+        />
+
         <p className="login-footer">
           Don't have an account? <Link to="/register">Register</Link>
+        </p>
+
+        <p className="login-footer">
+          Have Verification Token? <Link to="/verify-email">Verify Email</Link>
         </p>
 
         {isSubmitSuccessful && (

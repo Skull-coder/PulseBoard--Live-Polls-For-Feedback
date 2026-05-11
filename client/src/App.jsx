@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 import Login from "./components/auth/login/Login.jsx";
 import Signup from "./components/auth/signup/Signup.jsx";
 import VerifyEmail from "./components/auth/verifyEmail/VerifyEmail.jsx";

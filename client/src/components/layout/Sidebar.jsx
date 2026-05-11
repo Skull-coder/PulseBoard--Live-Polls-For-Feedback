@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api.js";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -11,11 +11,11 @@ const Sidebar = () => {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
 
-      await axios.post(
-        "http://localhost:3000/auth/logout",
-        { refreshToken },
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+      await api.post("/auth/logout", {
+        refreshToken
+      }, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
     } catch (err) {
       console.log("Logout error:", err);
     } finally {
