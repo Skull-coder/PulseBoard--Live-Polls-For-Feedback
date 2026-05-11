@@ -100,7 +100,7 @@ export const getPoll = async (pollId, userId = null) => {
       questions: poll.questions,
 
       expiresAt: poll.expiresAt,
-      responseMode: poll.responseMode
+      responseMode: poll.responseMode,
     };
   }
 
@@ -154,8 +154,8 @@ export const getPoll = async (pollId, userId = null) => {
     isPublished: poll.isPublished,
     _id: poll._id,
     totalResponses,
-    questions: poll.questions,       
-    expiresAt: poll.expiresAt,       
+    questions: poll.questions,
+    expiresAt: poll.expiresAt,
     responseMode: poll.responseMode,
     results,
   };
@@ -175,4 +175,20 @@ export const myPolls = async (userId) => {
   });
 
   return polls;
+};
+
+export const deletePoll = async (userId, pollId) => {
+  if (!mongoose.Types.ObjectId.isValid(pollId)) {
+    throw ApiError.badRequest("Invalid user id");
+  }
+
+  const poll = await Poll.findById(pollId);
+
+  if(!poll.createdBy.equals(userId)){
+    throw ApiError.badRequest("Invalid User");
+  }
+
+  await poll.deleteOne();
+  
+  return poll
 };

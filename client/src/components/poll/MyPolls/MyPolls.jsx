@@ -45,6 +45,18 @@ const MyPolls = () => {
     }
   };
 
+  const deletePoll = async (pollId) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      await axios.delete(`http://localhost:3000/poll/${pollId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      setPolls((prev) => prev.filter((p) => p._id !== pollId));
+    } catch (err) {
+      console.log("Delete error:", err);
+    }
+  };
+
   const getPollStatus = (poll) => {
     const now = new Date();
     const expiresAt = new Date(poll.expiresAt);
@@ -121,6 +133,16 @@ const MyPolls = () => {
                 </div>
 
                 <div className="poll-card-actions">
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deletePoll(poll._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  
                   {!poll.isPublished && status === "expired" && (
                     <button
                       className="publish-button"

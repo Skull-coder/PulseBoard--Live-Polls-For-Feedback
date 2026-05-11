@@ -65,3 +65,16 @@ export const myPolls = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deletePoll = async(req, res, next)=>{
+  try {
+    const userId = req.userId;
+    const pollId = req.params.pollId;
+
+    const poll = await service.deletePoll(userId, pollId);
+
+    ApiResponse.ok(res, "Deleted Poll:", poll);
+  } catch (error) {
+    next(error)
+  }
+}

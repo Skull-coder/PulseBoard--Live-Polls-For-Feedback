@@ -12,4 +12,6 @@ router.get("/myPolls", authenticated, controller.myPolls);
 router.get("/:pollId", controller.getPoll);
 router.patch("/:pollId/publish", authenticated, controller.publish)
 
+router.delete("/:pollId", authenticated, controller.deletePoll)
+
 export default router;
