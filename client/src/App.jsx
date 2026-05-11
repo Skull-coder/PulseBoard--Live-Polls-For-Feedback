@@ -21,10 +21,10 @@ function App() {
       <Route path="/poll/:pollId" element={<PollVote />} />
 
       {/* Dashboard (nested) */}
-      <Route path="/dashboard" element={<Dashboard />}>
+      <Route path="/" element={<Dashboard />}>
         <Route index element={<MyPolls />} />
-        <Route path="create" element={<CreatePoll />} />
-        <Route path="polls/:pollId" element={<PollAnalytics />} />
+        <Route path="/create" element={<CreatePoll />} />
+        <Route path="/polls/:pollId" element={<PollAnalytics />} />
       </Route>
     </Routes>
   );

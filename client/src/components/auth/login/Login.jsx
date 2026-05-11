@@ -36,7 +36,7 @@ const Login = () => {
         }),
       );
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.log("error:", error);
       // Axios received response from backend

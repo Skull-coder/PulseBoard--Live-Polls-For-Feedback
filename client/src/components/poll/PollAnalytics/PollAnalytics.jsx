@@ -140,7 +140,7 @@ const PollAnalytics = () => {
   return (
     <div className="analytics-container">
       <div className="analytics-header">
-        <button className="back-btn" onClick={() => navigate("/dashboard")}>
+        <button className="back-btn" onClick={() => navigate("/")}>
           ← Back
         </button>
 

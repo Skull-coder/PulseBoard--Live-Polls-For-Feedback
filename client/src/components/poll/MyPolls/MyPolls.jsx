@@ -78,7 +78,7 @@ const MyPolls = () => {
         <h1 className="mypolls-title">My Polls</h1>
         <button
           className="create-button"
-          onClick={() => navigate("/dashboard/create")}
+          onClick={() => navigate("/create")}
         >
           + Create Poll
         </button>
@@ -91,7 +91,7 @@ const MyPolls = () => {
           <p className="empty-text">No polls yet.</p>
           <button
             className="create-button"
-            onClick={() => navigate("/dashboard/create")}
+            onClick={() => navigate("/create")}
           >
             Create your first poll
           </button>
@@ -104,7 +104,7 @@ const MyPolls = () => {
               <div
                 key={poll._id}
                 className="poll-card"
-                onClick={() => navigate(`/dashboard/polls/${poll._id}`)}
+                onClick={() => navigate(`/polls/${poll._id}`)}
               >
                 <div className="poll-card-header">
                   <span className={`status-badge status-${status}`}>
@@ -158,7 +158,7 @@ const MyPolls = () => {
                     className="analytics-button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/dashboard/polls/${poll._id}`);
+                      navigate(`/polls/${poll._id}`);
                     }}
                   >
                     View Analytics →

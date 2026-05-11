@@ -111,7 +111,7 @@ const CreatePoll = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       const message = err.response?.data?.error?.message || "Failed to create poll.";
       setError(message);
@@ -252,7 +252,7 @@ const CreatePoll = () => {
           <button
             type="button"
             className="cancel-btn"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/")}
           >
             Cancel
           </button>

@@ -43,7 +43,7 @@ const Sidebar = () => {
 
       <nav className="sidebar-nav">
         <NavLink
-          to="/dashboard"
+          to="/"
           end
           className={({ isActive }) =>
             isActive ? "nav-link active" : "nav-link"
@@ -54,7 +54,7 @@ const Sidebar = () => {
         </NavLink>
 
         <NavLink
-          to="/dashboard/create"
+          to="/create"
           className={({ isActive }) =>
             isActive ? "nav-link active" : "nav-link"
           }
