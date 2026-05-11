@@ -44,7 +44,7 @@ api.interceptors.response.use(
         }
 
         // 1. Call your backend refresh route
-        const refreshResponse = await axios.post('http://localhost:3000/api/refresh', {
+        const refreshResponse = await axios.post('http://localhost:3000/auth/refresh', {
           refreshToken: refreshToken,
         });
 
