@@ -201,6 +201,8 @@ export const submit = async ({
       "NX",
     );
 
+    console.log("redis set fp")
+
     if (redisResult === null) {
       throw ApiError.conflict("You already voted");
     }

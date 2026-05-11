@@ -46,34 +46,53 @@ const responseSchema = new mongoose.Schema(
   },
 );
 
-responseSchema.pre("validate", function (next) {
-  const hasUserId = !!this.userId;
+// =====================================
+// custom validation
+// =====================================
 
-  const hasFingerprint = !!this.fingerprintHash;
+responseSchema.path("userId").validate(function () {
+  const hasUserId = this.userId != null;
 
-  if (!hasUserId && !hasFingerprint) {
-    return next(new Error("Either userId or fingerprintHash is required"));
-  }
+  const hasFingerprint =
+    typeof this.fingerprintHash === "string" && this.fingerprintHash.length > 0;
 
-  if (hasUserId && hasFingerprint) {
-    return next(
-      new Error("Both userId and fingerprintHash cannot exist together"),
-    );
-  }
+  // exactly one must exist
 
-  next();
-});
+  return hasUserId !== hasFingerprint;
+}, "Either userId or fingerprintHash must exist, but not both");
+
+// =====================================
+// indexes
+// =====================================
+
+// authenticated users
 
 responseSchema.index(
   { pollId: 1, userId: 1 },
   {
     unique: true,
+
     partialFilterExpression: {
-      userId: { $type: "objectId" },
+      userId: {
+        $type: "objectId",
+      },
     },
   },
 );
 
-responseSchema.index({ pollId: 1, fingerprintHash: 1 }, { unique: true });
+// anonymous users
+
+responseSchema.index(
+  { pollId: 1, fingerprintHash: 1 },
+  {
+    unique: true,
+
+    partialFilterExpression: {
+      fingerprintHash: {
+        $type: "string",
+      },
+    },
+  },
+);
 
 export default mongoose.model("Response", responseSchema);

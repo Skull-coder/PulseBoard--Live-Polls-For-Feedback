@@ -72,7 +72,7 @@ export const publish = async (userId, pollId) => {
 // GET POLL
 // =========================
 
-export const getPoll = async (pollId) => {
+export const getPoll = async (pollId, userId = null) => {
   if (!mongoose.Types.ObjectId.isValid(pollId)) {
     throw ApiError.badRequest("Invalid poll id");
   }
@@ -85,6 +85,8 @@ export const getPoll = async (pollId) => {
 
   const isExpired = poll.expiresAt < new Date();
 
+  const isCreator = userId && poll.createdBy.toString() === userId.toString();
+
   // =========================
   // ACTIVE POLL
   // =========================
@@ -92,12 +94,13 @@ export const getPoll = async (pollId) => {
   if (!isExpired) {
     return {
       isExpired: false,
-
+      isPublished: poll.isPublished,
       _id: poll._id,
 
       questions: poll.questions,
 
       expiresAt: poll.expiresAt,
+      responseMode: poll.responseMode
     };
   }
 
@@ -105,12 +108,12 @@ export const getPoll = async (pollId) => {
   // WAITING TO PUBLISH RESULTS
   // =========================
 
-  if (isExpired && !poll.isPublished) {
+  if (isExpired && !poll.isPublished && !isCreator) {
     return {
       isExpired: true,
       isPublished: false,
       message: "Results are not published yet",
-      expiresAt: poll.expiresAt,
+      expiresAt: poll.expiresAt, // <--- ADDED so the frontend knows it's expired
     };
   }
 
@@ -148,8 +151,12 @@ export const getPoll = async (pollId) => {
 
   return {
     isExpired: true,
+    isPublished: poll.isPublished,
     _id: poll._id,
     totalResponses,
+    questions: poll.questions,       
+    expiresAt: poll.expiresAt,       
+    responseMode: poll.responseMode,
     results,
   };
 };

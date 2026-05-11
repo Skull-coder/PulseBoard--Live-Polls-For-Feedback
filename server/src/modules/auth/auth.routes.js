@@ -14,7 +14,7 @@ router.post("/register", authLimitter, validateSchema(RegisterDto), controller.r
 
 router.post("/verify-email", validateSchema(VerifyEmailDto), controller.verify)
 
-router.post("/login", validateSchema(LoginDto), controller.login)
+router.post("/login", authLimitter, validateSchema(LoginDto), controller.login)
 router.post("/google", controller.googleAuthController);
 
 router.get("/getMe", authenticated, controller.getMe)
