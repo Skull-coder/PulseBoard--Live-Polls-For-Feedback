@@ -156,12 +156,19 @@ node index.js
 
 The server will start on `http://localhost:3000`.
 
-### 5. Install Dependencies & Start Frontend
+### 5. Configure Environment Variables
 
-In a new terminal:
 
 ```bash
-cd client
+cd ../client
+cp .env.example .env
+```
+Edit `.env`
+
+### 6. Install Dependencies & Start Frontend
+
+
+```bash
 npm install
 npm run dev
 ```
