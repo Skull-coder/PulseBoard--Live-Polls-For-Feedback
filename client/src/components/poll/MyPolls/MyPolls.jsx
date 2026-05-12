@@ -103,7 +103,7 @@ const MyPolls = () => {
                 </div>
 
                 <p className="poll-question">
-                  {poll.questions[0]?.question || "Untitled Poll"}
+                  {poll.title || "Untitled Poll"}
                 </p>
 
                 <div className="poll-meta">

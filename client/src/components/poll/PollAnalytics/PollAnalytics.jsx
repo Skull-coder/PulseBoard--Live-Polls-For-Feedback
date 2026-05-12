@@ -101,8 +101,7 @@ const PollAnalytics = () => {
     try {
       await api.patch(`/poll/${pollId}/publish`);
       setPoll((prev) => ({ ...prev, isPublished: true }));
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const pollUrl = `${window.location.origin}/poll/${pollId}`;
@@ -152,6 +151,9 @@ const PollAnalytics = () => {
         </div>
       </div>
 
+      {/* Added Poll Title Here */}
+      {poll.title && <h1 className="poll-title">{poll.title}</h1>}
+
       <div className="analytics-meta">
         <div className="stat-card">
           <span className="stat-value">{totalResponses}</span>
@@ -170,15 +172,13 @@ const PollAnalytics = () => {
       </div>
 
       {/* Share link */}
-      
-        <div className="share-section">
-          <span className="share-label">Share link:</span>
-          <span className="share-url">{pollUrl}</span>
-          <button className="copy-btn" onClick={copyLink}>
-            Copy
-          </button>
-        </div>
-      
+      <div className="share-section">
+        <span className="share-label">Share link:</span>
+        <span className="share-url">{pollUrl}</span>
+        <button className="copy-btn" onClick={copyLink}>
+          Copy
+        </button>
+      </div>
 
       {/* Questions & options */}
       <div className="questions-analytics">

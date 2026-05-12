@@ -49,6 +49,12 @@ const questionSchema = new mongoose.Schema(
 
 const pollSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: [true, "Poll title is required"],
+      trim: true,
+      maxlength: 200,
+    },
     questions: {
       type: [questionSchema],
 
@@ -82,10 +88,10 @@ const pollSchema = new mongoose.Schema(
       default: 0,
     },
 
-    isPublished:{
+    isPublished: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   {
     timestamps: true,

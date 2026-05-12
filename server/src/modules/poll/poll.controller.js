@@ -6,7 +6,6 @@ export const create = async (req, res, next) => {
   try {
     const userId = req.userId;
     const body = req.body;
-
     const poll = await service.create(userId, body);
 
     ApiResponse.created(res, "Poll is published SuccessFully", poll);

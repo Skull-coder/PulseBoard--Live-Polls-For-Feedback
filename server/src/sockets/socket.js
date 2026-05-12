@@ -9,6 +9,7 @@ import {
 import { socketAuthMiddleware } from "./middleware/socket.auth.middleware.js";
 
 import Poll from "../modules/poll/poll.model.js";
+import Response from "../modules/response/response.model.js";
 
 let io;
 
@@ -110,18 +111,49 @@ export const initSocket = async (server) => {
             // INITIAL ANALYTICS
             // =========================
 
-            const totalResponses = await redis.get(`poll:${pollId}:responses`);
+            let totalResponses;
+            const redisTotal = await redis.get(`poll:${pollId}:responses`);
+            if (redisTotal === null || redisTotal === undefined) {
+              totalResponses = poll.totalResponses || 0;
+              await redis.set(`poll:${pollId}:responses`, totalResponses);
+            } else {
+              totalResponses = Number(redisTotal);
+            }
 
             const analytics = {};
 
             // fetch analytics question-wise
 
             for (const question of poll.questions) {
-              const counts = await redis.hgetall(
-                `poll:${pollId}:question:${question._id}:options`,
-              );
+              const redisKey = `poll:${pollId}:question:${question._id}:options`;
+              const counts = await redis.hgetall(redisKey);
+
+              if (!counts || Object.keys(counts).length === 0) {
+                const voteCounts = await Response.aggregate([
+                  { $match: { pollId: poll._id } },
+                  { $unwind: "$answers" },
+                  {
+                    $group: {
+                      _id: "$answers.selectedOptionId",
+                      votes: { $sum: 1 },
+                    },
+                  },
+                ]);
+                counts = {};
+                for (const option of question.options) {
+                  const vote = voteCounts.find(
+                    (v) => v._id.toString() === option._id.toString(),
+                  );
+                  const voteCount = vote ? vote.votes : 0;
+                  counts[option._id.toString()] = String(voteCount);
+                }
+              }
 
               analytics[question._id.toString()] = counts;
+
+              if (Object.keys(counts).length > 0) {
+                await redis.hset(redisKey, counts);
+              }
             }
 
             // send initial state

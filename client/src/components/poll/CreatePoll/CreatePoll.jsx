@@ -15,6 +15,7 @@ const CreatePoll = () => {
   const [responseMode, setResponseMode] = useState("ANONYMOUS");
   const [expiryDuration, setExpiryDuration] = useState("5_MIN");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [title, setTitle] = useState("");
   const [error, setError] = useState("");
 
   // --- Question handlers ---
@@ -80,6 +81,11 @@ const CreatePoll = () => {
     setError("");
 
     // Basic client-side validation
+    if (!title.trim()) {
+      setError("Poll title cannot be empty.");
+      return;
+    }
+
     for (let i = 0; i < questions.length; i++) {
       if (!questions[i].question.trim()) {
         setError(`Question ${i + 1} cannot be empty.`);
@@ -96,6 +102,7 @@ const CreatePoll = () => {
     setIsSubmitting(true);
     try {
       const payload = {
+        title: title.trim(),
         questions: questions.map((q) => ({
           question: q.question.trim(),
           required: q.required,
@@ -105,7 +112,7 @@ const CreatePoll = () => {
         expiryDuration,
       };
 
-      await api.post("/poll/create", payload)
+      await api.post("/poll/create", payload);
 
       navigate("/");
     } catch (err) {
@@ -123,6 +130,18 @@ const CreatePoll = () => {
       </div>
 
       <form className="createpoll-form" onSubmit={handleSubmit}>
+        
+        {/* Title Section */}
+        <div className="title-section">
+          <input
+            className="poll-title-input"
+            type="text"
+            placeholder="Enter Poll Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
         {/* Questions */}
         <div className="questions-section">
           {questions.map((q, qIdx) => (

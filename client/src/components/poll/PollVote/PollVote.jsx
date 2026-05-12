@@ -125,7 +125,10 @@ const PollVote = () => {
     return (
       <div className="vote-wrapper">
         <div className="vote-container">
+          {/* Added Poll Title in Results View */}
+          {poll.title && <h1 className="poll-title">{poll.title}</h1>}
           <p className="results-heading">Poll Results</p>
+          
           <div className="results-meta">
             <span>{poll.totalResponses} total responses</span>
           </div>
@@ -180,6 +183,10 @@ const PollVote = () => {
     <div className="vote-wrapper">
       <div className="vote-container">
         <p className="vote-brand">PulseBoard</p>
+        
+        {/* Added Poll Title in Voting View */}
+        {poll.title && <h1 className="poll-title">{poll.title}</h1>}
+
         <div className="vote-meta">
           <span className="vote-mode-badge">{poll.responseMode}</span>
           {poll.expiresAt && (

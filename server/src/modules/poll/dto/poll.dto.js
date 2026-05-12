@@ -4,6 +4,11 @@ import { BaseDto } from "../../../common/dto/baseDto.js";
 
 class PollDto extends BaseDto {
   static schema = z.object({
+    title: z
+      .string()
+      .trim()
+      .min(1, "Title is required")
+      .max(200, "Title too long"),
     questions: z
       .array(
         z.object({

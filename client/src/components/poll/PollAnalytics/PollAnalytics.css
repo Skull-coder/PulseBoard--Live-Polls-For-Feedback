@@ -6,7 +6,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1rem; /* Slightly reduced to account for the title */
+}
+
+/* Added styling for the poll title */
+.poll-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 0;
   margin-bottom: 1.5rem;
+  line-height: 1.2;
 }
 
 .back-btn {

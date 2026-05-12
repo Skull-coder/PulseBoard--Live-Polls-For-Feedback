@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 export const create = async (
   userId,
 
-  { questions, responseMode, expiryDuration },
+  { title, questions, responseMode, expiryDuration },
 ) => {
   const expiryMap = {
     "5_MIN": 5,
@@ -35,6 +35,7 @@ export const create = async (
   }));
 
   const poll = await Poll.create({
+    title,
     questions: formattedQuestions,
     createdBy: userId,
     responseMode,
@@ -96,9 +97,8 @@ export const getPoll = async (pollId, userId = null) => {
       isExpired: false,
       isPublished: poll.isPublished,
       _id: poll._id,
-
+      title: poll.title, 
       questions: poll.questions,
-
       expiresAt: poll.expiresAt,
       responseMode: poll.responseMode,
     };
@@ -112,6 +112,7 @@ export const getPoll = async (pollId, userId = null) => {
     return {
       isExpired: true,
       isPublished: false,
+      title: poll.title, 
       message: "Results are not published yet",
       expiresAt: poll.expiresAt, // <--- ADDED so the frontend knows it's expired
     };
@@ -153,6 +154,7 @@ export const getPoll = async (pollId, userId = null) => {
     isExpired: true,
     isPublished: poll.isPublished,
     _id: poll._id,
+    title: poll.title, 
     totalResponses,
     questions: poll.questions,
     expiresAt: poll.expiresAt,
