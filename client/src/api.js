@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create a custom axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // Replace with your backend URL
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
 });
 
 // ---------------------------------------------------
@@ -44,7 +44,7 @@ api.interceptors.response.use(
         }
 
         // 1. Call your backend refresh route
-        const refreshResponse = await axios.post('http://localhost:3000/auth/refresh', {
+        const refreshResponse = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/refresh`, {
           refreshToken: refreshToken,
         });
 

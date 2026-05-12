@@ -22,7 +22,7 @@ export const initSocket = async (server) => {
 
   io = new Server(server, {
     cors: {
-      origin: "*",
+      origin: process.env.FRONTEND_URL || "http://localhost:5173",
 
       methods: ["GET", "POST"],
     },
@@ -126,12 +126,17 @@ export const initSocket = async (server) => {
 
             for (const question of poll.questions) {
               const redisKey = `poll:${pollId}:question:${question._id}:options`;
-              const counts = await redis.hgetall(redisKey);
+              let counts = await redis.hgetall(redisKey);
 
               if (!counts || Object.keys(counts).length === 0) {
                 const voteCounts = await Response.aggregate([
                   { $match: { pollId: poll._id } },
                   { $unwind: "$answers" },
+                  {
+                    $match: {
+                      "answers.questionId": question._id,
+                    },
+                  },
                   {
                     $group: {
                       _id: "$answers.selectedOptionId",
@@ -184,6 +189,9 @@ export const initSocket = async (server) => {
           console.log(`Socket disconnected: ${socket.id}`);
         },
       );
+      socket.on("error", (err) => {
+        console.error(`Socket error on ${socket.id}:`, err.message);
+      });
     },
   );
 };
