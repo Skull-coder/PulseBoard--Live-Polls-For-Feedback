@@ -304,7 +304,7 @@ The frontend runs on `http://localhost:5173` (Vite default).
 
 ## 💡 Future Improvements
 
-- Add OAuth (Google) frontend integration.
+- Handle issues if redis server restarted in between
 - Use HttpOnly cookies for token storage.
 - Email verification link redirection to frontend.
 - Poll result export (CSV/PDF).
