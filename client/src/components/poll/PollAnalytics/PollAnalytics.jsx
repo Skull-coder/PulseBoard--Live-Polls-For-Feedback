@@ -27,7 +27,7 @@ const PollAnalytics = () => {
           setTotalResponses(data.totalResponses);
         }
       } catch (err) {
-        setError("Failed to load poll.");
+        setError( err.response?.data?.error?.message || "Failed to load poll.");
       } finally {
         setLoading(false);
       }
@@ -101,7 +101,9 @@ const PollAnalytics = () => {
     try {
       await api.patch(`/poll/${pollId}/publish`);
       setPoll((prev) => ({ ...prev, isPublished: true }));
-    } catch (err) {}
+    } catch (err) {
+      setError(err.response?.data?.error?.message || "Failed to publish results.");
+    }
   };
 
   const pollUrl = `${window.location.origin}/poll/${pollId}`;
