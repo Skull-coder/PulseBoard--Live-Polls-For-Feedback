@@ -1,7 +1,7 @@
 import ApiError from "../../common/utils/api.error.js";
 import User from "./auth.model.js";
 import crypto from "crypto";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import {
   generateAccessToken,
   verifyAccessToken,

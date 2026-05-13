@@ -22,7 +22,8 @@ class PollDto extends BaseDto {
             .max(4, "Maximum 4 options allowed"),
         }),
       )
-      .min(1, "At least one question required"),
+      .min(1, "At least one question required")
+      .max(5, "Maximum 5 Questions are allowed"),
 
     responseMode: z.enum(["ANONYMOUS", "AUTHENTICATED"]),
 

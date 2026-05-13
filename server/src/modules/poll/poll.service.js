@@ -63,6 +63,10 @@ export const publish = async (userId, pollId) => {
     throw ApiError.badRequest("Invalid User");
   }
 
+  if (poll.expiresAt > new Date()){
+    throw ApiError.badRequest("Poll is not expired yet");
+  }
+
   poll.isPublished = true;
   await poll.save();
 

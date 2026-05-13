@@ -15,7 +15,7 @@ const MyPolls = () => {
         const response = await api.get("/poll/myPolls");
         setPolls(response.data.data);
       } catch (err) {
-        setError("Failed to load polls.");
+        setError(err.response?.data?.error?.message || "Failed to load polls.");
       } finally {
         setLoading(false);
       }
@@ -32,6 +32,7 @@ const MyPolls = () => {
         prev.map((p) => (p._id === pollId ? { ...p, isPublished: true } : p))
       );
     } catch (err) {
+      setError(err.response?.data?.error?.message || "Failed to publish poll.");
     }
   };
 
@@ -40,6 +41,7 @@ const MyPolls = () => {
       await api.delete(`/poll/${pollId}`);
       setPolls((prev) => prev.filter((p) => p._id !== pollId));
     } catch (err) {
+      setError(err.response?.data?.error?.message || "Failed to publish poll.");
     }
   };
 

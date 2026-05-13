@@ -17,6 +17,7 @@ const Sidebar = () => {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
     } catch (err) {
+      alert(err.response?.data?.error?.message || "Failed to logout properly from server.");
     } finally {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
