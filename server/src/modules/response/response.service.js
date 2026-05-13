@@ -128,6 +128,11 @@ export const submit = async ({
 
     const accessToken = authHeader.split(" ")[1];
 
+    const isBlacklisted = await redis.get(`bl:${accessToken}`);
+    if (isBlacklisted) {
+      throw ApiError.unauthorized("Session expired. Please log in again.");
+    }
+
     let decoded;
 
     try {
@@ -200,7 +205,6 @@ export const submit = async ({
       expirySeconds,
       "NX",
     );
-
 
     if (redisResult === null) {
       throw ApiError.conflict("You already voted");

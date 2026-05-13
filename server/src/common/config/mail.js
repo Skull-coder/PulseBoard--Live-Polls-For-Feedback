@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const port = process.env.PORT;
-const url = `http://localhost:${port}`
 
 const getTransporter = () => {
   return nodemailer.createTransport({
@@ -21,9 +19,6 @@ const getTransporter = () => {
 
 export const sendVerificationEmail = async (email, rawToken) => {
   const transporter = getTransporter();
-
-  // Frontend URL for verification (if frontend is available)
-  const frontendVerificationUrl = `${url}/verify-email?token=${rawToken}`;
   
   await transporter.sendMail({
     from: `${process.env.SMTP_FROM_EMAIL}`,
