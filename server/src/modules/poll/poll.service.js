@@ -99,6 +99,7 @@ export const getPoll = async (pollId, userId = null) => {
   if (!isExpired) {
     return {
       isExpired: false,
+      isCreator,
       isPublished: poll.isPublished,
       _id: poll._id,
       title: poll.title, 
@@ -156,6 +157,7 @@ export const getPoll = async (pollId, userId = null) => {
 
   return {
     isExpired: true,
+    isCreator,
     isPublished: poll.isPublished,
     _id: poll._id,
     title: poll.title, 

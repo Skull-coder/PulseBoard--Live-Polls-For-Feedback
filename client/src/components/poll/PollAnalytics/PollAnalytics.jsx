@@ -22,6 +22,11 @@ const PollAnalytics = () => {
       try {
         const response = await api.get(`/poll/${pollId}`);
         const data = response.data.data;
+        if(!data.isCreator) {
+          setError("You are not authorized to view this analytics dashboard.");
+          setLoading(false);
+          return;
+        }
         setPoll(data);
         if (data.totalResponses !== undefined) {
           setTotalResponses(data.totalResponses);
